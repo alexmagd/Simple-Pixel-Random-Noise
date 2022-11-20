@@ -1,0 +1,281 @@
+import pygame
+import numpy as np
+import random
+import sys
+from pygame.locals import *
+
+mainClock = pygame.time.Clock()
+pygame.init()
+pygame.font.init()
+size = 600
+screen = pygame.display.set_mode((size, size),0,32)
+pygame.display.set_caption("Random Noise Generator")
+pacex = 1
+pacey = 1
+WHITE = (255, 255, 255)
+RED = (200, 0, 0)
+BLUE = (0, 0, 255)
+GREEN = (0,255, 0)
+BLACK = (0, 0, 0)
+GREY = (128, 128, 128)
+click = False
+tick = [False, 1]
+
+def drawrgb():
+    run = True
+    screen.fill(BLACK)
+    drawtext('PRESS SPACE TO START', 115, 270, WHITE, 30)
+    if tick[1] == 2:
+        pacex = 2
+        pacey = 2
+    else:
+        pacex = 1
+        pacey = 1
+
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    run = False
+                if event.key == pygame.K_SPACE:
+                    screen.fill(BLACK)
+                    for j in range(0,size+1,pacex):
+                        for i in range(0,size+1,pacey):
+                            if random.randint(1,3) == 2:
+                                if tick[1] == 2:
+                                    screen.set_at((i,j), RED)
+                                    screen.set_at((i+1, j), RED)
+                                    screen.set_at((i, j+1), RED)
+                                    screen.set_at((i+1, j+1), RED)
+                                    if tick[0] == True:
+                                        pygame.display.update()
+                                elif tick[1] == 1:
+                                    screen.set_at((i,j), RED)
+                                    if tick[0] == True:
+                                        pygame.display.update()
+                            elif random.randint(1,3) == 1:
+                                if tick[1] == 2:
+                                    screen.set_at((i,j), GREEN)
+                                    screen.set_at((i+1, j), GREEN)
+                                    screen.set_at((i, j+1), GREEN)
+                                    screen.set_at((i+1, j+1), GREEN)
+                                    if tick[0] == True:
+                                        pygame.display.update()
+                                elif tick[1] == 1:
+                                    screen.set_at((i,j), GREEN)
+                                    if tick[0] == True:
+                                        pygame.display.update()
+                            elif random.randint(1,3) == 3:
+                                if tick[1] == 2:
+                                    screen.set_at((i,j), BLUE)
+                                    screen.set_at((i+1, j), BLUE)
+                                    screen.set_at((i, j+1), BLUE)
+                                    screen.set_at((i+1, j+1), BLUE)
+                                    if tick[0] == True:
+                                        pygame.display.update()
+                                elif tick[1] == 1:
+                                    screen.set_at((i,j), BLUE)
+                                    if tick[0] == True:
+                                        pygame.display.update()
+
+        pygame.display.update()
+        mainClock.tick(60)
+
+
+def drawbw():
+    run = True
+    screen.fill(BLACK)
+    drawtext('PRESS SPACE TO START', 115, 270, WHITE, 30)
+    if tick[1] == 2:
+        pacex = 2
+        pacey = 2
+    else:
+        pacex = 1
+        pacey = 1
+
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    run = False
+                if event.key == pygame.K_SPACE:
+                    screen.fill(BLACK)
+                    for j in range(0,size+1,pacex):
+                        for i in range(0,size+1,pacey):
+                            if random.choice([True, False]) == True:
+                                if tick[1] == 2:
+                                    screen.set_at((i, j), WHITE)
+                                    screen.set_at((i+1, j), WHITE)
+                                    screen.set_at((i, j+1), WHITE)
+                                    screen.set_at((i+1, j+1), WHITE)
+                                    if tick[0] == True:
+                                        pygame.display.update()
+                                elif tick[1] == 1:
+                                    screen.set_at((i, j), WHITE)
+                                    if tick[0] == True:
+                                        pygame.display.update()
+
+
+        pygame.display.update()
+        mainClock.tick(60)
+
+
+def options(tick):
+
+    run = True
+    checkbox_show_process = pygame.Rect(302, 152, 18, 18)
+    checkbox_outline_show_process = pygame.Rect(300, 150, 22, 22)
+    pygame.draw.rect(screen, (BLACK), checkbox_outline_show_process)
+    pygame.draw.rect(screen, (WHITE), checkbox_show_process)
+    drawtext('Show process', 150, 146, BLACK, 20)
+
+    checkbox_dencity1 = pygame.Rect(302, 222, 18, 18)
+    checkbox_dencity_outline1 = pygame.Rect(300, 220, 22, 22)
+    pygame.draw.rect(screen, (BLACK), checkbox_dencity_outline1)
+    pygame.draw.rect(screen, (WHITE), checkbox_dencity1)
+    drawtext('Dencity', 150, 216, BLACK, 20)
+
+    checkbox_dencity2 = pygame.Rect(347, 222, 18, 18)
+    checkbox_dencity_outline2 = pygame.Rect(345, 220, 22, 22)
+    pygame.draw.rect(screen, (BLACK), checkbox_dencity_outline2)
+    pygame.draw.rect(screen, (WHITE), checkbox_dencity2)
+    drawtext('1', 307, 195, BLACK, 20)
+    drawtext('2', 350, 195, BLACK, 20)
+
+    if tick[0] == True:
+        check1 = pygame.image.load('check-mark.png')
+        check1 = pygame.transform.scale(check1, (15,15))
+        screen.blit(check1, (303, 153))
+    
+    if tick[1] == 1:
+        check1 = pygame.image.load('check-mark.png')
+        check1 = pygame.transform.scale(check1, (15,15))
+        screen.blit(check1, (303, 223))
+    else:
+        check1 = pygame.image.load('check-mark.png')
+        check1 = pygame.transform.scale(check1, (15,15))
+        screen.blit(check1, (348, 223))
+
+
+
+    click = False
+
+    while run:
+        mx, my = pygame.mouse.get_pos()
+        if checkbox_show_process.collidepoint((mx, my)):
+            if click:
+                if tick[0] == False:
+                    check1 = pygame.image.load('check-mark.png')
+                    check1 = pygame.transform.scale(check1, (15,15))
+                    screen.blit(check1, (303, 153))
+                    tick[0] = True
+                else:
+                    pygame.draw.rect(screen, (WHITE), checkbox_show_process)
+                    tick[0] = False
+
+        if checkbox_dencity1.collidepoint((mx, my)):
+            if click:
+                if tick[1] == 2:
+                    check1 = pygame.image.load('check-mark.png')
+                    check1 = pygame.transform.scale(check1, (15,15))
+                    screen.blit(check1, (303, 223))
+                    tick[1] = 1
+                    pygame.draw.rect(screen, (WHITE), checkbox_dencity2)
+
+        if checkbox_dencity2.collidepoint((mx, my)):
+            if click:
+                if tick[1] == 1:
+                    check1 = pygame.image.load('check-mark.png')
+                    check1 = pygame.transform.scale(check1, (15,15))
+                    screen.blit(check1, (348, 223))
+                    tick[1] = 2
+                    pygame.draw.rect(screen, (WHITE), checkbox_dencity1)
+
+                
+        click = False
+
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+        
+        
+        pygame.display.update()
+        mainClock.tick(60)
+
+    
+
+
+
+
+def read():
+    run = True
+ 
+
+
+def drawtext(text, posx, posy, color, size):
+    myfont = pygame.font.SysFont('Comic Sans MS', size)
+    textsurface = myfont.render(text, False, color)
+    screen.blit(textsurface,(posx,posy))
+
+
+
+def main():
+
+    run = True
+    click = False
+
+    while run:
+        
+        mx, my = pygame.mouse.get_pos()
+        screen.fill(WHITE)
+        noise_1_button = pygame.Rect(200, 180, 200, 60)
+        noise_2_button = pygame.Rect(200, 280, 200, 60)
+        options_button = pygame.Rect(200, 380, 200, 60)
+        read_button = pygame.Rect(200, 480, 200, 60)
+        if noise_1_button.collidepoint((mx, my)):
+            if click:
+                drawrgb()
+        if noise_2_button.collidepoint((mx, my)):
+            if click:
+                drawbw()
+        if options_button.collidepoint((mx, my)):
+            if click:
+                options(tick)
+        if read_button.collidepoint((mx, my)):
+            if click:
+                read()
+        pygame.draw.rect(screen, (BLACK), noise_1_button)
+        drawtext('R', 210, 185,RED, 32)
+        drawtext('G', 228, 185, GREEN, 32)
+        drawtext('B', 247, 185, BLUE, 32)
+        drawtext('NOISE', 280, 185, WHITE, 32)
+        pygame.draw.rect(screen, (BLACK), noise_2_button)
+        drawtext('BLACK AND WHITE', 203, 283, WHITE, 20)
+        drawtext('NOISE', 270, 310, WHITE, 20)
+        pygame.draw.rect(screen, (BLACK), options_button)
+        drawtext('OPTIONS', 220, 385, WHITE, 32)
+        pygame.draw.rect(screen, (BLACK), read_button)
+        drawtext('READ', 260, 485, WHITE, 32)
+
+        click = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+
+        pygame.display.flip()
+        pygame.display.update()
+        mainClock.tick(60)
+
+    pygame.quit()
+
+
+
+if __name__ ==  "__main__":
+    main()
